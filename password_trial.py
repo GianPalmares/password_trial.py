@@ -1,9 +1,7 @@
 def login(user_name, password):
     with open("users.txt", "r") as file:
-        
-        users_dict = {}
 
-        # file = open("users.txt", "r")
+        users_dict = {}
 
         for line in file:
 
@@ -12,30 +10,38 @@ def login(user_name, password):
 
 
         if user_name not in users_dict:
-            print("Username not available!")
-            choice = input("\nDo you wish to create an account?(yes/no): ")
+            print("Username not in our database!")
 
-            if choice == "yes":
-                new_user(user_name, password)
+            while True:
+                choice = input("\nDo you wish to create an account?(yes/no): ").lower().strip()
 
-            else:
-                print("Closing program!")
-                exit()
+                if choice == "yes":
+                    new_user(user_name, password)
+                    break
+
+                elif choice == "no":
+                    print("Closing program!")
+                    exit()
+
+                else:
+                    print("Please choose between 'yes' or 'no'.")
+                    continue
+
 
         elif password != users_dict[user_name]:
             print("Invalid Password!")
 
         else:
-            print(f"Welcome {user_name}!")
+            print(f"Welcome back {user_name}!")
+            exit()
 
 
-def new_user(user_name, password):
+def new_user(new_username, new_password):
     with open("users.txt", "a+") as file:
 
         users_dict = {}
+        
         file.seek(0)
-
-        # file2 = open("users.txt", "r")
 
         for line in file:
 
@@ -44,38 +50,63 @@ def new_user(user_name, password):
 
         while True:
 
-            user_name = input("\nPlease enter new username: ")
+            new_username = input("\nPlease enter new username: ")
 
-            if user_name in users_dict.keys():
+            if new_username in users_dict.keys():
 
-                print("That username already exists! Please enter a different one.")
+                print("That username already exists! Please enter a different one. Please try again")
                 continue
 
-            password = input("\nPlease enter new password: ")
+            elif " " in new_username:
+                print("Spaces aren't allowed for username. Please try again")
+                continue
 
-            if user_name == password:
+            elif len(new_username) == 0:
+                print("You can't have an empty username. Please try again")
+                continue
+
+
+            new_password = input("\nPlease enter new password: ")
+
+            if new_username == new_password:
                 print("Please make sure your username does not match your password!")
                 continue
 
+            elif " " in new_password:
+                print("Spaces aren't allowed for password. Please try again")
+                continue
+
+            elif len(new_password) == 0:
+                print("You can't have an empty password. Please try again")
+                continue
+
+            elif len(new_password) <= 2:
+                print("Your password is too short. Please try again")
+                continue
+
+            confirm_password = input("\nPlease confirm password: ")
+
+            if new_password != confirm_password:
+                print("Your passwords don't match! Please try again.")
+
             else:
-                print(f"Welcome {user_name}! Thank you for creating an account with us.")
-                file.write(f"\n{user_name}, {password}")
+                print(f"Welcome {new_username}! Thank you for creating an account with us.")
+                file.write(f"\n{new_username}, {new_password}")
                 break
 
 
 print("\n\t\t\tWelcome!\n")
-
-print("Please press 'exit' to exit!\n")
+print("\tPlease enter user credentials to login!\n")
 
 
 while True:
 
-    user_name = input("\nPlease enter username: ")
+    user_name = input("\nPlease enter your username: ")
     if user_name == "exit":
         print("Exiting the program")
         exit()
 
-    password = input("\nPlease enter password: ")
+    password = input("\nPlease enter your password: ")
     if password == "exit":
         print("Exiting the program")
         exit()

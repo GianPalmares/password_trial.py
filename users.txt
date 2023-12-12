@@ -15,3 +15,7 @@ yuji, yuj1
 naruto, narut0
 hinata, h1nata
 rengokou, reng0k0u
+dog, d0g
+lion, l10n
+tiger, t1ger
+abigail, ab1ga1l
